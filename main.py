@@ -1,8 +1,10 @@
 import wave
+import os
+import pandas as pd
 import pyaudio
 import speech_recognition as speech
 
-# For playing the "click" sound prior to listening.
+
 def play_audio(filename):
     chunk = 1024
     wf = wave.open(filename, 'rb')
@@ -27,26 +29,42 @@ def play_audio(filename):
 
 r = speech.Recognizer()
 
-# Listens through the mic
+
 def initSpeech():
     print("Listening...")
-    play_audio("./audio/click.wav")
+    play_audio("audio/click.wav")
 
     with speech.Microphone() as source:
         print("Say something")
         audio = r.listen(source)
 
-    play_audio("./audio/click.wav")
+    play_audio("audio/click.wav")
     command = ""
-    
-# If the speech cannot be recognized, it goes to google.
+
     try:
         command = r.recognize_google(audio)
     except:
         print("Sorry, I couldn't understand you")
-    
-    # Returns the regonized speech in the console
-    print("Your command:", command)
+        command = "N/A"
 
-initSpeech()
+    return command
+
+
+def identifier(command):
+    directory = './lyrics/'
+    for filename in os.listdir(directory):
+        if filename.endswith(".txt"):
+            f = open(directory + filename)
+            lines = f.read()
+            if (command or command.lower()) in lines:
+                print("This is '" + filename.replace(".txt", "").title() + "' by Phoebe Bridgers")
+                continue
+            else:
+                continue
+        else:
+            continue
+
+
+command = initSpeech()
+identifier(command)
 
