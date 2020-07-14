@@ -2,13 +2,7 @@ import wave
 import pyaudio
 import speech_recognition as speech
 
-
-# file = pyglet.resource.media('audio/hasty-ba-dum-tss.mp3')
-# file.play()
-
-# pyglet.app.run()
-
-
+# For playing the "click" sound prior to listening.
 def play_audio(filename):
     chunk = 1024
     wf = wave.open(filename, 'rb')
@@ -33,7 +27,7 @@ def play_audio(filename):
 
 r = speech.Recognizer()
 
-
+# Listens through the mic
 def initSpeech():
     print("Listening...")
     play_audio("./audio/click.wav")
@@ -44,12 +38,14 @@ def initSpeech():
 
     play_audio("./audio/click.wav")
     command = ""
-
+    
+    # If the speech cannot be recognized, it goes to google.
     try:
         command = r.recognize_google(audio)
     except:
         print("Sorry, I couldn't understand you")
-
+    
+    # Returns the regonized speech in the console
     print("Your command:", command)
 
 initSpeech()
