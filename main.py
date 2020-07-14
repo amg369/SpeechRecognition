@@ -39,7 +39,7 @@ def initSpeech():
     play_audio("./audio/click.wav")
     command = ""
     
-    # If the speech cannot be recognized, it goes to google.
+# If the speech cannot be recognized, it goes to google.
     try:
         command = r.recognize_google(audio)
     except:
